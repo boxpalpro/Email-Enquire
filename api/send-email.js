@@ -28,7 +28,7 @@ module.exports = async (req, res) => {
 
   const mailOptions = {
     from: process.env.EMAIL_USER,
-    to: "jigartrivedi265@gmail.com",
+    to: "boxpalpro@gmail.com",
     subject: "New Bulk Order Enquiry",
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px;">
