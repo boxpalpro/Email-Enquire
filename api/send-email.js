@@ -25,26 +25,36 @@ module.exports = async (req, res) => {
       pass: process.env.EMAIL_PASS,
     },
   });
-
+const buildField = (label, value, isEmail = false) => {
+  if (!value) return "";
+  if (isEmail) {
+    return `<p style="font-size: 16px;"><strong>${label}:</strong> <a href="mailto:${value}" style="color: #007bff; text-decoration: none;">${value}</a></p>`;
+  }
+  return `<p style="font-size: 16px;"><strong>${label}:</strong> ${value}</p>`;
+};
   const mailOptions = {
     from: process.env.EMAIL_USER,
     to: "boxpalpro@gmail.com",
     subject: "New Bulk Order Enquiry",
     html: `
-      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px;">
-          <h2 style="background: #007bff; color: white; padding: 10px; text-align: center; border-radius: 5px;">New Bulk Order Enquiry</h2>
-          <div style="padding: 15px;">
-              <p style="font-size: 16px;"><strong>Name:</strong> ${name}</p>
-              <p style="font-size: 16px;"><strong>Company:</strong> ${company}</p>
-              <p style="font-size: 16px;"><strong>Number of Products:</strong> ${products}</p>
-              <p style="font-size: 16px;"><strong>Email:</strong> <a href="mailto:${email}" style="color: #007bff; text-decoration: none;">${email}</a></p>
-              <p style="font-size: 16px;"><strong>Phone:</strong> ${phone}</p>
-              <p style="font-size: 16px;"><strong>State:</strong> ${state}</p>
-          </div>
-          <div style="text-align: center; margin-top: 20px;">
-              <a href="mailto:${email}" style="background: #28a745; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Reply to Enquiry</a>
-          </div>
-      </div>
+     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px;">
+        <h2 style="background: #007bff; color: white; padding: 10px; text-align: center; border-radius: 5px;">New Bulk Order Enquiry</h2>
+        <div style="padding: 15px;">
+            ${buildField("Name", name)}
+            ${buildField("Company", company)}
+            ${buildField("Number of Products", products)}
+            ${buildField("Email", email, true)}
+            ${buildField("Phone", phone)}
+            ${buildField("State", state)}
+        </div>
+        ${
+          email
+            ? `<div style="text-align: center; margin-top: 20px;">
+                <a href="mailto:${email}" style="background: #28a745; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Reply to Enquiry</a>
+              </div>`
+            : ""
+        }
+    </div>
     `,
   };
 
